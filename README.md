@@ -116,3 +116,303 @@ Componente -> Estado -> Render -> Usuario (y vuelve a "Estado")
 ## Contexto y funcionamiento de los Frameworks JavaScript
 
 ### Cómo construyeron React.js
+
+Ecmascript es el estándar de JavaScript.
+
+Facebook creó React.
+
+React busca cumplir con ser:
+
+- Declarativo: Que sea muy fácil de leer
+- Basado en componentes
+- Multiplataforma: Learn Once, Write Anywhere
+
+*React DOM* es la herramienta de Facebook oficial para hacer render.
+
+La manera de trabajar ahora con React es usando React Hooks.
+
+### Cómo funciona un componente en React
+
+Los componentes en React funcionan como bloques de lego, juntamos algo y podemos hacer algo más grande.
+
+*Montaje*: Primer paso del ciclo de vida de un componente.
+
+*Actualización*: Cuando los componentes pasan por el método `render()`
+
+Cuando vamos a otra sección de la página, los componentes se eliminan. React eliminará código del DOM.
+
+### Manipulación del DOM y flujo de trabajo al estilo React
+
+Todo lo que empiece por "on" en React es un evento.
+
+Form.js:
+
+```javascript
+import React from "react";
+
+export default function Form(props) {
+  const [quantity, setQuantity] = React.useState(0);
+  const { movie } = props;
+  return (
+    <form>
+      <h3>{movie.name}</h3>
+      <button
+        type="button"
+        onClick={() => setQuantity(quantity - 1)}
+        disabled={quantity <= 0}
+      >
+        -
+      </button>
+      {quantity}
+      <button
+        type="button"
+        onClick={() => setQuantity(quantity + 1)}
+        disabled={quantity >= movie.available}
+      >
+        +
+      </button>
+    </form>
+  );
+}
+
+```
+
+App.js:
+
+```javascript
+import Form from "./Form";
+
+const movies = [
+  {
+    name: "Avengers",
+    available: 5
+  },
+  {
+    name: "Terminator",
+    available: 3
+  }
+];
+
+export default function App() {
+  return (
+    <div>
+      <h2>Películas</h2>
+      {movies.map((movie) => (
+        <Form movie={movie} />
+      ))}
+    </div>
+  );
+}
+
+```
+
+### Cómo construyeron Angular
+
+Angular JS se volvió open source en el 2010 y es patrocinado por Google.
+
+Angular tiene a Angular Ivy para renderizar los componentes en el navegador y usa Incremental DOM.
+
+### Manipulación del DOM y flujo de trabajo al estilo Angular
+
+```html
+<h2>{{ title }}</h2>
+
+<form *ngFor="let movie of movies">
+  <h3>{{ movie.name }}</h3>
+
+  <button
+    type="button"
+    (click)="removeMovieQuantity(movie.name)"
+    [disabled]="movie.quantity <= 0"
+  >
+    -
+  </button>
+  {{ movie.quantity }}
+  <button
+    type="button"
+    (click)="addMovieQuantity(movie.name)"
+    [disabled]="movie.quantity >= movie.available"
+  >
+    +
+  </button>
+</form>
+
+```
+
+```typescript
+import { Component } from "@angular/core";
+
+type Movie = {
+  name: String;
+  available: Number;
+  quantity: Number;
+};
+
+type Movies = Array<Movie>;
+
+@Component({
+  selector: "app-root",
+  templateUrl: "./app.component.html"
+})
+export class AppComponent {
+  title: String = "Películas";
+  movies: Movies = [
+    {
+      name: "Avengers",
+      available: 3,
+      quantity: 0
+    },
+    {
+      name: "Terminator",
+      available: 5,
+      quantity: 0
+    }
+  ];
+
+  addMovieQuantity(movieName) {
+    const movieIndex = this.movies.findIndex(
+      (movie) => movie.name === movieName
+    );
+
+    this.movies[movieIndex].quantity += 1;
+  }
+
+  removeMovieQuantity(movieName) {
+    const movieIndex = this.movies.findIndex(
+      (movie) => movie.name === movieName
+    );
+
+    this.movies[movieIndex].quantity -= 1;
+  }
+}
+```
+
+### Cómo construyeron Vue
+
+Vue es progresivo, escalable, pero flexible. Se integra bien con cualquier app (no como angular). Vue es completamente reactivo (no como React).
+Podrás usar HTML al principio pero poco a poco usarás más JS.
+
+[Documental de Vue JS](https://www.youtube.com/watch?v=OrxmtDw4pVI)
+
+### Manipulación del DOM y flujo de trabajo al estilo Vue
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+  </head>
+  <body>
+    <div id="root">
+      <h2>Películas</h2>
+      <form v-for="movie in movies">
+        <h3>{{ movie.name }}</h3>
+
+        <button
+          type="button"
+          v-on:click="movie.quantity -= 1"
+          :disabled="movie.quantity <= 0"
+        >
+          -
+        </button>
+        {{ movie.quantity }}
+        <button
+          type="button"
+          v-on:click="movie.quantity += 1"
+          :disabled="movie.quantity >= movie.available"
+        >
+          +
+        </button>
+      </form>
+    </div>
+    <script src="https://unpkg.com/vue@3.0.5/dist/vue.global.js"></script>
+    <script>
+      const { createApp } = Vue;
+
+      const app = createApp({
+        data() {
+          return {
+            movies: [
+              {
+                name: "Avengers",
+                available: 3,
+                quantity: 0
+              },
+              {
+                name: "Terminator",
+                available: 5,
+                quantity: 0
+              }
+            ]
+          };
+        }
+      });
+      app.mount("#root");
+    </script>
+  </body>
+</html>
+```
+
+### Cómo construyeron Svelte
+
+No crea intermadiarios entre tu código y el DOM.
+
+Svelte es buenísimo para sitios web y no tan bueno para aplicaciones web.
+
+Svelte es un compilador y necesita hacer un AST (Abstract Syntax Tree).
+
+### Manipulación del DOM y flujo de trabajo al estilo Svelte
+
+```html
+<script>
+  import Form from "./Form.svelte";
+</script>
+
+<main>
+  <h2>Películas</h2>
+
+  <Form/>
+</main>
+```
+
+```html
+<script>
+  const movies = [
+    {
+      name: "Avengers",
+      available: 3,
+      quantity: 0
+    },
+    {
+      name: "Terminator",
+      available: 5,
+      quantity: 0
+    }
+  ];
+</script>
+
+{#each movies as movie}
+<form>
+	<h3>{movie.name}</h3>
+
+	<button type="button"
+  on:click={() => movie.quantity -= 1}
+  disabled={movie.quantity <= 0}
+  >
+		-
+	</button>
+
+	{movie.quantity}
+
+	<button type="button"
+  on:click={() => movie.quantity += 1}
+  disabled={movie.quantity >= movie.available}
+  >
+		+
+	</button>
+</form>
+{/each}
+```
