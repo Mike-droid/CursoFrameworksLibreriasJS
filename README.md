@@ -416,3 +416,31 @@ Svelte es un compilador y necesita hacer un AST (Abstract Syntax Tree).
 </form>
 {/each}
 ```
+
+## Estilos con CSS, preprocesdaores y CSs-in-JS
+
+### Qué es CSS-in-JS
+
+Es la forma de escribir CSS desde JavaScript. Aumenta la ventaja de usarlo en componentes.
+
+Ejemplo de React Components:
+
+```javascript
+const Title = styled.h2`
+	color: ${props =>
+	props.error
+	? 'red'
+	: 'white'
+	)};
+`;
+```
+
+```html
+<Title>¡Título blanco!</Title>
+<Title error>¡Título rojo!</Title>
+```
+Los estilos globales no son una desventaja de CSS-in-JS.
+
+## Cómo escalar sitios o aplicaciones web
+
+### Tipos de aplicaciones según su router: SPAs vs SSR
