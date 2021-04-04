@@ -444,3 +444,29 @@ Los estilos globales no son una desventaja de CSS-in-JS.
 ## Cómo escalar sitios o aplicaciones web
 
 ### Tipos de aplicaciones según su router: SPAs vs SSR
+
+**SPA**: Single Page Application
+
+**CSR**: Client Side Rendering
+
+**SSR**: Server Side Rendering
+
+Los routers son herramientas para manejar las rutas de nuestra aplicación.
+
+Recomendación: Nunca pares de aprender.
+
+### Frameworks sobre frameworks: Next.js
+
+- Next.js es un framework que usa React.js para las vistas.
+- Nuext.js es un framework que usa Vue.js para las vistas.
+
+### Organización de archivos en el frontend
+
+Es importante saber diferenciar entre la lógica y UI.
+
+*File Type First*: Una carpeta para cada tipo de componente. Por ejemplo `/components , /containers , /routes`.
+
+*Feature first*: Una carpeta para cada feature. Por ejemplo `/Menu , /Form , /Button`.
+
+*Apps for apps*: Una carpeta para cada aplicación. Por ejemplo `/StudentsPlatform , /BusinessPlatform , /SalesLanding`.
+
